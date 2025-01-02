@@ -1,0 +1,55 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: ${NAME}_nginx
+    volumes:
+      - ./nginx/site.conf:/etc/nginx/templates/default.conf.template
+      - ./logs/nginx:/var/log/nginx
+      - ./root:/var/www/html
+    environment:
+      - NGINX_HOST=${DOMAIN_NAME}
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - php-fpm
+    networks:
+      - wp_network
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: Dockerfile-php
+    container_name: ${NAME}_php
+    volumes:
+      - ./config/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./root:/var/www/html
+      - ./logs/php:/var/log/php
+    environment:
+      PHP_IDE_CONFIG: "serverName=docker"
+    networks:
+      - wp_network
+
+  mariadb:
+    image: mariadb
+    container_name: ${NAME}_db
+    volumes:
+      - ./database/mariadb:/var/lib/mysql
+      - ./config/mariadb.cnf:/etc/mysql/my.cnf
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    networks:
+      - wp_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+networks:
+  wp_network:
+    driver: bridge
