@@ -78,6 +78,9 @@ services:
       - "8082:80"
     depends_on:
       - mariadb
+    environment:
+      FILEMANAGER_USERNAME: ${FILEMANAGER_USERNAME}
+      FILEMANAGER_PASSWORD: ${FILEMANAGER_PASSWORD}
     networks:
       - wp_network
 

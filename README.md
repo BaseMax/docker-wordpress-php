@@ -58,6 +58,8 @@ Ensure you have the following installed:
 3. Start the containers:
    ```bash
    docker-compose up -d
+   or
+   docker-compose up --build
    ```
 
 4. Access the services:
