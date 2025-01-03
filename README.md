@@ -45,12 +45,14 @@ Ensure you have the following installed:
 
 2. Create a `.env` file with the following variables:
    ```env
-   NAME=wordpress
-   DOMAIN_NAME=localhost
+   NAME=maysub_mydomain_com
+   DOMAIN_NAME=maysub.mydomain.com
    MARIADB_DATABASE=wordpress
    MARIADB_USER=wp_user
    MARIADB_PASSWORD=wp_password
    MARIADB_ROOT_PASSWORD=root_password
+   FILEMANAGER_USERNAME=myroot
+   FILEMANAGER_PASSWORD=jhdfjgjdfghuhuihuih34ui5hui$?>..,,
    ```
 
 3. Start the containers:
