@@ -26,8 +26,7 @@ RUN apk add \
     nano \
     curl && \
     mkdir -p /var/www/html && \
-    mkdir -p /run/nginx && \
-    chown -R nginx:nginx /var/www/html
+    mkdir -p /run/nginx
 
 COPY ./assets/phpmyadmin.zip /tmp/phpmyadmin.zip
 RUN unzip /tmp/phpmyadmin.zip -d /var/www/html/ && \
