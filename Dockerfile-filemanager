@@ -34,6 +34,10 @@ RUN unzip /tmp/tinyfilemanager.zip -d /var/www/html/ && \
     rm /tmp/tinyfilemanager.zip
 
 COPY ./config/filemanager.php /var/www/html/config.inc.php
+
+COPY ./.env /tmp/.env
+RUN grep '^FILEMANAGER_' /tmp/.env > /var/www/html/.env && rm /tmp/.env
+
 RUN chown -R nginx:nginx /var/www/html
 
 RUN rm /etc/nginx/http.d/default.conf
