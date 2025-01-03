@@ -42,7 +42,7 @@ RUN grep '^FILEMANAGER_' /tmp/.env > /var/www/html/.env && rm /tmp/.env
 COPY ./config/filemanager-sync.php /tmp/temp.php
 
 RUN php /tmp/temp.php && \
-    chown -R nginx:nginx /var/www/html/.env /var/www/html/config.php /var/www/html/index.php && \
+    chown -R nginx:nginx /var/www/html/.env /var/www/html/config.php /var/www/html/index.php /var/www/html/translation.json && \
     rm /tmp/temp.php
 
 EXPOSE 80
