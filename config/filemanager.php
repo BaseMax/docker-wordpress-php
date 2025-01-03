@@ -5,8 +5,6 @@ $use_auth = true;
 
 $auth_users = [
     getenv('FILEMANAGER_USERNAME') => getenv('FILEMANAGER_PASSWORD'),
-    // getenv('FILEMANAGER_USERNAME') => password_hash(getenv('FILEMANAGER_PASSWORD'), PASSWORD_DEFAULT),
-    // getenv('FILEMANAGER_USERNAME') => '$2y$10$/K.hjNr84lLNDt8fTXjoI.DBp6PpeyoJ.mGwrrLuCZfAwfSAGqhOW',
 ];
 
 $readonly_users = [];
@@ -24,13 +22,6 @@ $root_path = '/var/www/html/root/';
 $root_url = '';
 
 $http_host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-
-if (! isset($_SERVER['HTTP_HOST'])) {
-    //print_r($_ENV);
-//    var_dump(getenv('FILEMANAGER_USERNAME'));
-//    var_dump(getenv('FILEMANAGER_PASSWORD'));
-//    print_r($auth_users);
-}
 
 $directories_users = [];
 
