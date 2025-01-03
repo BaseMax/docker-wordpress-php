@@ -53,6 +53,10 @@ Ensure you have the following installed:
    MARIADB_ROOT_PASSWORD=root_password
    FILEMANAGER_USERNAME=myroot
    FILEMANAGER_PASSWORD=jhdfjgjdfghuhuihuih34ui5hui$?>..,,
+   PORT_HTTP=80
+   PORT_HTTPS=443
+   PORT_PHPMYADMIN=8081
+   PORT_FILEMANAGER=8082
    ```
 
 3. Start the containers:
