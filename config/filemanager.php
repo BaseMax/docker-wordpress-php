@@ -4,7 +4,7 @@ $CONFIG = '{"lang":"en","error_reporting":true,"show_hidden":true,"hide_Cols":fa
 $use_auth = true;
 
 $auth_users = [
-    "{FILEMANAGER_USERNAME}" => "{FILEMANAGER_PASSWORD}",
+    '{FILEMANAGER_USERNAME}' => '{FILEMANAGER_PASSWORD}',
 ];
 
 $readonly_users = [];
