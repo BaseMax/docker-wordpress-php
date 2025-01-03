@@ -26,10 +26,10 @@ $root_url = '';
 $http_host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
 if (! isset($_SERVER['HTTP_HOST'])) {
-    print_r($_ENV);
-    var_dump(getenv('FILEMANAGER_USERNAME'));
-    var_dump(getenv('FILEMANAGER_PASSWORD'));
-    print_r($auth_users);
+    //print_r($_ENV);
+//    var_dump(getenv('FILEMANAGER_USERNAME'));
+//    var_dump(getenv('FILEMANAGER_PASSWORD'));
+//    print_r($auth_users);
 }
 
 $directories_users = [];
