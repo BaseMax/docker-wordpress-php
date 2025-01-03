@@ -59,7 +59,7 @@ Ensure you have the following installed:
    ```bash
    docker-compose up -d
    or
-   docker-compose up --build
+   docker-compose down && docker-compose up --build
    ```
 
 4. Access the services:

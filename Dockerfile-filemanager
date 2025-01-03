@@ -37,7 +37,16 @@ COPY ./config/filemanager.php /var/www/html/config.php
 COPY ./.env /tmp/.env
 RUN grep '^FILEMANAGER_' /tmp/.env > /var/www/html/.env && rm /tmp/.env
 
-RUN chown -R nginx:nginx /var/www/html/.env /var/www/html/config.php /var/www/html/index.php
+RUN export $(cat /var/www/html/.env | xargs) && \
+    echo "Username: $FILEMANAGER_USERNAME" && \
+    echo "Password: $FILEMANAGER_PASSWORD" && \
+    USERNAME_ESCAPED=$(printf '%s' "$FILEMANAGER_USERNAME" | sed 's/\$/\\\$/g' | sed 's/\//\\\//g') && \
+    PASSWORD_ESCAPED=$(printf '%s' "$FILEMANAGER_PASSWORD" | sed 's/\$/\\\$/g' | sed 's/\//\\\//g') && \
+    echo "Username: $USERNAME_ESCAPED" && \
+    echo "Password: $PASSWORD_ESCAPED" && \
+    sed -i "s/{FILEMANAGER_USERNAME}/$USERNAME_ESCAPED/g" /var/www/html/config.php && \
+    sed -i "s/{FILEMANAGER_PASSWORD}/$PASSWORD_ESCAPED/g" /var/www/html/config.php && \
+    chown -R nginx:nginx /var/www/html/.env /var/www/html/config.php /var/www/html/index.php
 
 RUN rm /etc/nginx/http.d/default.conf
 COPY ./nginx/filemanager.conf /etc/nginx/http.d/default.conf
