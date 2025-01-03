@@ -9,8 +9,8 @@ services:
     environment:
       - NGINX_HOST=${DOMAIN_NAME}
     ports:
-      - "80:80"
-      - "443:443"
+      - "${PORT_HTTP}:80"
+      - "${PORT_HTTPS}:80"
     depends_on:
       - php-fpm
     networks:
@@ -58,7 +58,7 @@ services:
       - ./nginx/phpmyadmin.conf:/etc/nginx/http.d/default.conf
       - ./database/phpmyadmin/:/var/www/html/tmp/
     ports:
-      - "8081:80"
+      - "${PORT_PHPMYADMIN}:80"
     depends_on:
       - mariadb
     networks:
@@ -73,7 +73,7 @@ services:
       - ./nginx/filemanager.conf:/etc/nginx/http.d/default.conf
       - ./root:/var/www/html/root/
     ports:
-      - "8082:80"
+      - "${PORT_FILEMANAGER}:80"
     depends_on:
       - mariadb
     environment:
