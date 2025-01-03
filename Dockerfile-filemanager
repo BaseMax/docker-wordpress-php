@@ -28,6 +28,8 @@ RUN apk add \
     mkdir -p /var/www/html && \
     mkdir -p /run/nginx
 
+COPY ./config/php.ini /etc/php83/php.ini
+
 COPY ./assets/tinyfilemanager.zip /tmp/tinyfilemanager.zip
 RUN unzip /tmp/tinyfilemanager.zip -d /var/www/html/ && \
     rm /tmp/tinyfilemanager.zip
@@ -37,46 +39,11 @@ COPY ./config/filemanager.php /var/www/html/config.php
 COPY ./.env /tmp/.env
 RUN grep '^FILEMANAGER_' /tmp/.env > /var/www/html/.env && rm /tmp/.env
 
-RUN cat <<'EOF' > /tmp/temp.php
-<?php
-    $envPath = '/var/www/html/.env';
-    if (!file_exists($envPath)) {
-        exit('Error: .env file not found.');
-    }
-    $env = [];
-    foreach (file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-        if (strpos($line, '=') !== false) {
-            list($key, $value) = explode('=', $line, 2);
-            $env[trim($key)] = trim($value);
-        }
-    }
-    if (!isset($env['FILEMANAGER_USERNAME']) || !isset($env['FILEMANAGER_PASSWORD'])) {
-        exit('Error: Required environment variables not set.');
-    }
-    $username = $env['FILEMANAGER_USERNAME'];
-    $password = $env['FILEMANAGER_PASSWORD'];
-    $targetFile = '/var/www/html/config.php';
-    if (!file_exists($targetFile)) {
-        exit('Error: Target PHP file not found.');
-    }
-    $fileContents = file_get_contents($targetFile);
-    if ($fileContents === false) {
-        exit('Error: Unable to read the target PHP file.');
-    }
-    $fileContents = str_replace('{FILEMANAGER_USERNAME}', $username, $fileContents);
-    $fileContents = str_replace('{FILEMANAGER_PASSWORD}', $password, $fileContents);
-    if (file_put_contents($targetFile, $fileContents) === false) {
-        exit('Error: Unable to write to the target PHP file.');
-    }
-    echo "Placeholders replaced successfully.\n";
-?>
-EOF && \
-    php /tmp/temp.php && \
-    rm /tmp/temp.php && \
-    chown -R nginx:nginx /var/www/html/.env /var/www/html/config.php /var/www/html/index.php
+COPY ./config/filemanager-sync.php /tmp/temp.php
 
-RUN rm /etc/nginx/http.d/default.conf
-COPY ./nginx/filemanager.conf /etc/nginx/http.d/default.conf
+RUN php /tmp/temp.php && \
+    chown -R nginx:nginx /var/www/html/.env /var/www/html/config.php /var/www/html/index.php && \
+    rm /tmp/temp.php
 
 EXPOSE 80
 
