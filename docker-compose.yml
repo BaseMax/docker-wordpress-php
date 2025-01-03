@@ -14,7 +14,7 @@ services:
     depends_on:
       - php-fpm
     networks:
-      - wp_network
+      - my_network
 
   php-fpm:
     build:
@@ -27,7 +27,7 @@ services:
     environment:
       PHP_IDE_CONFIG: "serverName=docker"
     networks:
-      - wp_network
+      - my_network
 
   mariadb:
     image: mariadb
@@ -41,7 +41,7 @@ services:
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
     networks:
-      - wp_network
+      - my_network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -62,7 +62,7 @@ services:
     depends_on:
       - mariadb
     networks:
-      - wp_network
+      - my_network
 
   filebrowser:
     build:
@@ -80,8 +80,8 @@ services:
       FILEMANAGER_USERNAME: ${FILEMANAGER_USERNAME}
       FILEMANAGER_PASSWORD: ${FILEMANAGER_PASSWORD}
     networks:
-      - wp_network
+      - my_network
 
 networks:
-  wp_network:
+  my_network:
     driver: bridge
